@@ -22,6 +22,7 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.util.concurrent.DefaultEventExecutor;
 
+import org.collibra.challenge.graph.handler.ReadOperationsHandler;
 import org.collibra.challenge.graph.handler.WriteNodeOperationsHandler;
 import org.collibra.challenge.graph.manager.JGraphTNodeManager;
 import org.collibra.challenge.graph.manager.NodeOperationManager;
@@ -78,6 +79,7 @@ public class Server {
                             pipeline.addLast( new SessionClosedHandler( sessionId ) );
 
                             pipeline.addLast( new DefaultEventExecutor(), new WriteNodeOperationsHandler( nodeOperationManager ) );
+                            pipeline.addLast( new DefaultEventExecutor(), new ReadOperationsHandler( nodeOperationManager ) );
 
                             pipeline.addLast( new SimpleChannelInboundHandler<Request>() {
                                 @Override
