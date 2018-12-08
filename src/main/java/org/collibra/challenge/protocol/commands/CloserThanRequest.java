@@ -21,4 +21,10 @@ public class CloserThanRequest implements ReadRequest {
     {
         return weight;
     }
+
+    @Override
+    public String toString()
+    {
+        return String.format( "nodeName: %s, weight: %d", nodeName, weight );
+    }
 }

@@ -19,13 +19,13 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
-import io.netty.util.concurrent.DefaultEventExecutor;
 
 import org.collibra.challenge.graph.handler.ReadOperationsHandler;
 import org.collibra.challenge.graph.handler.WriteNodeOperationsHandler;
 import org.collibra.challenge.graph.manager.JGraphTNodeManager;
 import org.collibra.challenge.graph.manager.NodeOperationManager;
 import org.collibra.challenge.graph.manager.OptimisticNodeOperationManager;
+import org.collibra.challenge.graph.manager.SynchronizedNodeOperationManager;
 import org.collibra.challenge.protocol.commands.Request;
 import org.collibra.challenge.protocol.handlers.RequestDecoder;
 import org.collibra.challenge.protocol.handlers.ResponseEncoder;
@@ -49,7 +49,7 @@ public class Server {
     {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
-        NodeOperationManager nodeOperationManager = new OptimisticNodeOperationManager( new JGraphTNodeManager() );
+        NodeOperationManager nodeOperationManager = new SynchronizedNodeOperationManager( new JGraphTNodeManager() );
 
         LogManager.getLogger().info( "Starting Collibra Challenge server on port: {}", port );
 

@@ -1,6 +1,7 @@
 package org.collibra.challenge.protocol.commands;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CloserThanResponse implements Response {
     private final List<String> paths;
@@ -16,6 +17,6 @@ public class CloserThanResponse implements Response {
     @Override
     public String toResponseString()
     {
-        return paths.toString();
+        return paths.stream().collect( Collectors.joining(","));
     }
 }

@@ -98,7 +98,7 @@ public class RequestDecoder extends ByteToMessageDecoder {
             return new AddNodeRequest( name );
         }
         else if ( command.startsWith( ADD_EDGE ) ) {
-            String[] edgeItems = command.substring( ADD_EDGE.length() ).split( " " );
+            String[] edgeItems = command.substring( ADD_EDGE.length() ).split( "\\s+" );
             if ( edgeItems.length < 3 ) {
                 throw new UnsupportedCommandException( command );
             }
@@ -109,21 +109,21 @@ public class RequestDecoder extends ByteToMessageDecoder {
             return new RemoveNodeRequest( name );
         }
         else if ( command.startsWith( REMOVE_EDGE ) ) {
-            String[] edgeItems = command.substring( REMOVE_EDGE.length() ).split( " " );
+            String[] edgeItems = command.substring( REMOVE_EDGE.length() ).split( "\\s+" );
             if ( edgeItems.length < 2 ) {
                 throw new UnsupportedCommandException( command );
             }
             return new RemoveEdgeRequest( edgeItems[ 0 ], edgeItems[ 1 ] );
         }
         else if ( command.startsWith( SHORTEST_PATH ) ) {
-            String[] pathItems = command.substring( SHORTEST_PATH.length() ).split( " " );
+            String[] pathItems = command.substring( SHORTEST_PATH.length() ).split( "\\s+" );
             if ( pathItems.length < 2 ) {
                 throw new UnsupportedCommandException( command );
             }
             return new ShortestPathRequest( pathItems[ 0 ], pathItems[ 1 ] );
         }
         else if ( command.startsWith( CLOSER_THAN ) ) {
-            String[] weightedNode = command.substring( CLOSER_THAN.length() ).split( " " );
+            String[] weightedNode = command.substring( CLOSER_THAN.length() ).split( "\\s+" );
             if ( weightedNode.length < 2 ) {
                 throw new UnsupportedCommandException( command );
             }
