@@ -6,6 +6,7 @@ import org.collibra.challenge.graph.error.NodeOperationException.NodeMissingExce
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.EdgeFactory;
 import org.jgrapht.WeightedGraph;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -53,6 +54,18 @@ public class JGraphTNodeManager implements NodeOperationManager {
     {
         if ( completeGraph.removeEdge( startNode, endNode ) == null ) {
             throw new NodeMissingException();
+        }
+    }
+
+    @Override
+    public Integer findShortestPath(String fromNode, String toNode)
+    {
+        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath( completeGraph );
+        try {
+            return Double.valueOf( dijkstraShortestPath.getPath( fromNode, toNode ).getWeight() ).intValue();
+        }
+        catch ( IllegalArgumentException e ) {
+            return Integer.MAX_VALUE;
         }
     }
 

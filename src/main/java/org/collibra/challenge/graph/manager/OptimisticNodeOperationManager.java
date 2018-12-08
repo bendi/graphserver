@@ -65,4 +65,10 @@ public class OptimisticNodeOperationManager implements NodeOperationManager {
             stampedLock.unlockWrite( lock );
         }
     }
+
+    @Override
+    public Integer findShortestPath(String fromNode, String toNode)
+    {
+        return null;
+    }
 }

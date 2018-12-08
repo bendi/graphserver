@@ -31,4 +31,12 @@ public interface NodeOperationManager {
      */
     void removeEdge(String startNode, String endNode) throws NodeOperationException;
 
+    /**
+     *
+     * @param fromNode
+     * @param toNode
+     * @return
+     */
+    Integer findShortestPath(String fromNode, String toNode);
+
 }
