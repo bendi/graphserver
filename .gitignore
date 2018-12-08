@@ -1,0 +1,19 @@
+bedkowski.ipr
+
+# Eclipse
+.classpath
+.project
+.settings/
+ 
+# Intellij
+.idea/
+*.iml
+*.iws
+ 
+# Mac
+.DS_Store
+ 
+# Maven
+log/
+target/
+src/test/resources/testclient.jar
