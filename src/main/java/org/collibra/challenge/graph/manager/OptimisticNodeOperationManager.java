@@ -69,6 +69,17 @@ public class OptimisticNodeOperationManager implements NodeOperationManager {
     @Override
     public Integer findShortestPath(String fromNode, String toNode)
     {
-        return null;
+        long stamp = stampedLock.tryOptimisticRead();
+        Integer value = nodeOperationManager.findShortestPath( fromNode, toNode );
+        if ( !stampedLock.validate( stamp ) ) {
+            stamp = stampedLock.readLock();
+            try {
+                value = nodeOperationManager.findShortestPath( fromNode, toNode );
+            }
+            finally {
+                stampedLock.unlockRead( stamp );
+            }
+        }
+        return value;
     }
 }

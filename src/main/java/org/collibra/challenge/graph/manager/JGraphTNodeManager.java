@@ -5,6 +5,7 @@ import org.collibra.challenge.graph.error.NodeOperationException.NodeAlreadyExis
 import org.collibra.challenge.graph.error.NodeOperationException.NodeMissingException;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.EdgeFactory;
+import org.jgrapht.GraphPath;
 import org.jgrapht.WeightedGraph;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.AbstractBaseGraph;
@@ -62,7 +63,11 @@ public class JGraphTNodeManager implements NodeOperationManager {
     {
         DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath( completeGraph );
         try {
-            return Double.valueOf( dijkstraShortestPath.getPath( fromNode, toNode ).getWeight() ).intValue();
+            GraphPath path = dijkstraShortestPath.getPath( fromNode, toNode );
+            if ( path == null ) {
+                return Integer.MAX_VALUE;
+            }
+            return Double.valueOf( path.getWeight() ).intValue();
         }
         catch ( IllegalArgumentException e ) {
             return Integer.MAX_VALUE;
