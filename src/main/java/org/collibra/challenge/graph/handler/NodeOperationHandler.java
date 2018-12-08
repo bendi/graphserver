@@ -4,9 +4,9 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.collibra.challenge.graph.error.GraphOperationException;
-import org.collibra.challenge.graph.error.GraphOperationException.*;
-import org.collibra.challenge.graph.manager.VerticesManager;
+import org.collibra.challenge.graph.error.NodeOperationException;
+import org.collibra.challenge.graph.error.NodeOperationException.*;
+import org.collibra.challenge.graph.manager.NodeOperationManager;
 import org.collibra.challenge.protocol.commands.*;
 import org.collibra.challenge.protocol.commands.NodeOperationErrorResponse.*;
 
@@ -16,13 +16,13 @@ public class NodeOperationHandler extends MessageToMessageDecoder<Request> {
 
     private static final Logger LOG = LogManager.getLogger();
 
-    private final VerticesManager verticesManager;
+    private final NodeOperationManager nodeOperationManager;
 
     /**
-     * @param verticesManager
+     * @param nodeOperationManager
      */
-    public NodeOperationHandler(VerticesManager verticesManager) {
-        this.verticesManager = verticesManager;
+    public NodeOperationHandler(NodeOperationManager nodeOperationManager) {
+        this.nodeOperationManager = nodeOperationManager;
     }
 
     @Override
@@ -40,22 +40,38 @@ public class NodeOperationHandler extends MessageToMessageDecoder<Request> {
         }
     }
 
-    private Response handleGraphOperationRequest(Request request) throws GraphOperationException {
+    private Response handleGraphOperationRequest(Request request) throws NodeOperationException {
         if (request instanceof AddEdgeRequest) {
-            verticesManager.addEdge((AddEdgeRequest) request);
+            handleGraphOperationRequest((AddEdgeRequest) request);
             return new EdgeOperationResponse();
         } else if (request instanceof AddNodeRequest) {
-            verticesManager.addNode((AddNodeRequest) request);
+            handleGraphOperationRequest((AddNodeRequest) request);
             return new NodeOperationResponse();
         } else if (request instanceof RemoveEdgeRequest) {
-            verticesManager.removeEdge((RemoveEdgeRequest) request);
+            handleGraphOperationRequest((RemoveEdgeRequest) request);
             return new EdgeOperationResponse(true);
         } else if (request instanceof RemoveNodeRequest) {
-            verticesManager.removeNode((RemoveNodeRequest) request);
+            handleGraphOperationRequest((RemoveNodeRequest) request);
             return new NodeOperationResponse(true);
         } else {
             throw new IllegalArgumentException("Unknonw request: " + request.getClass().getCanonicalName());
         }
+    }
+
+    private void handleGraphOperationRequest(AddEdgeRequest addEdgeRequest) throws NodeOperationException {
+        nodeOperationManager.addEdge(addEdgeRequest.getStartNode(), addEdgeRequest.getEndNode(), addEdgeRequest.getWeight());
+    }
+
+    private void handleGraphOperationRequest(AddNodeRequest addNodeRequest) throws NodeOperationException {
+        nodeOperationManager.addNode(addNodeRequest.getNodeName());
+    }
+
+    private void handleGraphOperationRequest(RemoveEdgeRequest removeEdgeRequest) throws NodeOperationException {
+        nodeOperationManager.removeEdge(removeEdgeRequest.getStartNode(), removeEdgeRequest.getEndNode());
+    }
+
+    private void handleGraphOperationRequest(RemoveNodeRequest removeNodeRequest) throws NodeOperationException {
+        nodeOperationManager.removeNode(removeNodeRequest.getNodeName());
     }
 
 }
