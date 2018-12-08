@@ -76,7 +76,7 @@ public class ReentrantReadWriteLockNodeOperationManager implements NodeOperation
             return nodeOperationManager.findShortestPath( fromNode, toNode );
         }
         finally {
-            reentrantReadWriteLock.writeLock().unlock();
+            reentrantReadWriteLock.readLock().unlock();
         }
     }
 
@@ -88,7 +88,7 @@ public class ReentrantReadWriteLockNodeOperationManager implements NodeOperation
             return nodeOperationManager.findCloserThan( nodeName, weight );
         }
         finally {
-            reentrantReadWriteLock.writeLock().unlock();
+            reentrantReadWriteLock.readLock().unlock();
         }
     }
 }
