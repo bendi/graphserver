@@ -7,22 +7,26 @@ public class NodeOperationResponse implements Response {
     /**
      * @param removed
      */
-    public NodeOperationResponse(boolean removed) {
+    public NodeOperationResponse(boolean removed)
+    {
         this.removed = removed;
     }
 
     /**
      *
      */
-    public NodeOperationResponse() {
+    public NodeOperationResponse()
+    {
         this.removed = false;
     }
 
     @Override
-    public String toResponseString() {
-        if (removed) {
+    public String toResponseString()
+    {
+        if ( removed ) {
             return "NODE REMOVED";
-        } else {
+        }
+        else {
             return "NODE ADDED";
         }
     }

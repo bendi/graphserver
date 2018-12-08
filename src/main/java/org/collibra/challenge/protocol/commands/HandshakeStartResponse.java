@@ -8,12 +8,14 @@ public class HandshakeStartResponse implements Response {
 
     private final UUID sessionId;
 
-    public HandshakeStartResponse(UUID sessionId) {
+    public HandshakeStartResponse(UUID sessionId)
+    {
         this.sessionId = sessionId;
     }
 
     @Override
-    public String toResponseString() {
-        return String.format(COMMAND_TEMPLATE, sessionId.toString());
+    public String toResponseString()
+    {
+        return String.format( COMMAND_TEMPLATE, sessionId.toString() );
     }
 }

@@ -7,8 +7,7 @@ import org.junit.Test;
 /**
  * Unit test for simple Server.
  */
-public class ServerTest
-{
+public class ServerTest {
     /**
      * Rigorous Test :-)
      */

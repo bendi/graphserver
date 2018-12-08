@@ -9,19 +9,22 @@ public class NodeOperationErrorResponse implements Response {
     /**
      * @param errorType
      */
-    public NodeOperationErrorResponse(ErrorType errorType) {
+    public NodeOperationErrorResponse(ErrorType errorType)
+    {
         this.errorType = errorType;
     }
 
     @Override
-    public String toResponseString() {
+    public String toResponseString()
+    {
         switch (errorType) {
-            case NotFound:
-                return "ERROR: NODE NOT FOUND";
-            case AlreadyExists:
-                return "ERROR: NODE ALREADY EXISTS";
+        case NotFound:
+            return "ERROR: NODE NOT FOUND";
+        case AlreadyExists:
+            return "ERROR: NODE ALREADY EXISTS";
         }
 
-        throw new IllegalStateException("Unknown error type: " + errorType);
+        throw new IllegalStateException( "Unknown error type: " + errorType );
     }
+
 }

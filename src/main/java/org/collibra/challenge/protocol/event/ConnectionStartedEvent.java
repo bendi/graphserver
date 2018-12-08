@@ -9,20 +9,22 @@ public class ConnectionStartedEvent {
     private final String connectionName;
 
     /**
-     *
      * @param sessionId
      * @param connectionName
      */
-    public ConnectionStartedEvent(UUID sessionId, String connectionName) {
+    public ConnectionStartedEvent(UUID sessionId, String connectionName)
+    {
         this.sessionId = sessionId;
         this.connectionName = connectionName;
     }
 
-    public UUID getSessionId() {
+    public UUID getSessionId()
+    {
         return sessionId;
     }
 
-    public String getConnectionName() {
+    public String getConnectionName()
+    {
         return connectionName;
     }
 }

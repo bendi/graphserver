@@ -1,8 +1,6 @@
 package org.collibra.challenge.protocol.commands;
 
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.time.Period;
 
 public class SessionClosedResponse implements Response {
 
@@ -13,25 +11,28 @@ public class SessionClosedResponse implements Response {
     private final Duration sessionDuration;
 
     /**
-     *
      * @param name
      * @param sessionDuration
      */
-    public SessionClosedResponse(String name, Duration sessionDuration) {
+    public SessionClosedResponse(String name, Duration sessionDuration)
+    {
         this.name = name;
         this.sessionDuration = sessionDuration;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public Duration getSessionDuration() {
+    public Duration getSessionDuration()
+    {
         return sessionDuration;
     }
 
     @Override
-    public String toResponseString() {
-        return String.format(COMMAND_PATTERN, name == null ? "" : name, sessionDuration.toMillis());
+    public String toResponseString()
+    {
+        return String.format( COMMAND_PATTERN, name == null ? "" : name, sessionDuration.toMillis() );
     }
 }

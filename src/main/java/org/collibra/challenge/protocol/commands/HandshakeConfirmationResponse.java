@@ -9,13 +9,15 @@ public class HandshakeConfirmationResponse implements Response {
     /**
      * @param name
      */
-    public HandshakeConfirmationResponse(String name) {
+    public HandshakeConfirmationResponse(String name)
+    {
         this.name = name;
     }
 
     @Override
-    public String toResponseString() {
-        return String.format(COMMAND_TEMPLATE, name);
+    public String toResponseString()
+    {
+        return String.format( COMMAND_TEMPLATE, name );
     }
 
 }

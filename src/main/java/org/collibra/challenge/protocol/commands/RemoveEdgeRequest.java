@@ -7,20 +7,22 @@ public class RemoveEdgeRequest implements Request {
     private final String endNode;
 
     /**
-     *
      * @param startNode
      * @param endNode
      */
-    public RemoveEdgeRequest(String startNode, String endNode) {
+    public RemoveEdgeRequest(String startNode, String endNode)
+    {
         this.startNode = startNode;
         this.endNode = endNode;
     }
 
-    public String getStartNode() {
+    public String getStartNode()
+    {
         return startNode;
     }
 
-    public String getEndNode() {
+    public String getEndNode()
+    {
         return endNode;
     }
 }

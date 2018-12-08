@@ -7,22 +7,26 @@ public class EdgeOperationResponse implements Response {
     /**
      * @param removed
      */
-    public EdgeOperationResponse(boolean removed) {
+    public EdgeOperationResponse(boolean removed)
+    {
         this.removed = removed;
     }
 
     /**
      *
      */
-    public EdgeOperationResponse() {
+    public EdgeOperationResponse()
+    {
         this.removed = false;
     }
 
     @Override
-    public String toResponseString() {
-        if (removed) {
+    public String toResponseString()
+    {
+        if ( removed ) {
             return "EDGE REMOVED";
-        } else {
+        }
+        else {
             return "EDGE ADDED";
         }
     }

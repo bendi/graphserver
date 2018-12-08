@@ -4,12 +4,13 @@ public class HandshakeStartRequest implements Request {
 
     private final String name;
 
-
-    public HandshakeStartRequest(String name) {
+    public HandshakeStartRequest(String name)
+    {
         this.name = name;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 }
