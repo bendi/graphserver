@@ -24,7 +24,7 @@ import org.collibra.challenge.graph.handler.ReadOperationsHandler;
 import org.collibra.challenge.graph.handler.WriteNodeOperationsHandler;
 import org.collibra.challenge.graph.manager.JGraphTNodeManager;
 import org.collibra.challenge.graph.manager.NodeOperationManager;
-import org.collibra.challenge.graph.manager.OptimisticNodeOperationManager;
+import org.collibra.challenge.graph.manager.ReentrantReadWriteLockNodeOperationManager;
 import org.collibra.challenge.graph.manager.SynchronizedNodeOperationManager;
 import org.collibra.challenge.protocol.commands.Request;
 import org.collibra.challenge.protocol.handlers.RequestDecoder;
@@ -49,7 +49,7 @@ public class Server {
     {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
-        NodeOperationManager nodeOperationManager = new SynchronizedNodeOperationManager( new JGraphTNodeManager() );
+        NodeOperationManager nodeOperationManager = new ReentrantReadWriteLockNodeOperationManager( new JGraphTNodeManager() );
 
         LogManager.getLogger().info( "Starting Collibra Challenge server on port: {}", port );
 
@@ -78,8 +78,8 @@ public class Server {
                             pipeline.addLast( new SessionStartHandler( sessionId ) );
                             pipeline.addLast( new SessionClosedHandler( sessionId ) );
 
-                            pipeline.addLast( new DefaultEventExecutor(), new WriteNodeOperationsHandler( nodeOperationManager ) );
-                            pipeline.addLast( new DefaultEventExecutor(), new ReadOperationsHandler( nodeOperationManager ) );
+                            pipeline.addLast( new WriteNodeOperationsHandler( nodeOperationManager ) );
+                            pipeline.addLast( new ReadOperationsHandler( nodeOperationManager ) );
 
                             pipeline.addLast( new SimpleChannelInboundHandler<Request>() {
                                 @Override

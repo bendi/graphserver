@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.collibra.challenge.graph.error.NodeOperationException;
 import org.collibra.challenge.graph.error.NodeOperationException.NodeAlreadyExistsException;
 import org.collibra.challenge.graph.error.NodeOperationException.NodeMissingException;
@@ -18,6 +21,8 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 
 public class JGraphTNodeManager implements NodeOperationManager {
+
+    private static final Logger LOG = LogManager.getLogger();
 
     private final Graph<String, DefaultWeightedEdge> completeGraph;
 
@@ -87,7 +92,7 @@ public class JGraphTNodeManager implements NodeOperationManager {
     @Override
     public List<String> findCloserThan(String nodeName, Integer weight)
     {
-        ShortestPathAlgorithm shortestPath = new JohnsonShortestPaths( completeGraph, weight );
+        ShortestPathAlgorithm shortestPath = new BellmanFordShortestPath( completeGraph, weight );
         SingleSourcePaths paths = shortestPath.getPaths( nodeName );
         if ( paths == null ) {
             return null;

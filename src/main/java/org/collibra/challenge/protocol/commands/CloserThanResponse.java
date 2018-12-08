@@ -17,6 +17,6 @@ public class CloserThanResponse implements Response {
     @Override
     public String toResponseString()
     {
-        return paths.stream().collect( Collectors.joining(","));
+        return paths.stream().collect( Collectors.joining( "," ) );
     }
 }
