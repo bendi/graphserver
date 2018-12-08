@@ -1,5 +1,8 @@
 package org.collibra.challenge.graph.manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.collibra.challenge.graph.error.NodeOperationException;
 import org.collibra.challenge.graph.error.NodeOperationException.NodeAlreadyExistsException;
 import org.collibra.challenge.graph.error.NodeOperationException.NodeMissingException;
@@ -7,6 +10,7 @@ import org.jgrapht.DirectedGraph;
 import org.jgrapht.EdgeFactory;
 import org.jgrapht.GraphPath;
 import org.jgrapht.WeightedGraph;
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm.SingleSourcePaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.ClassBasedEdgeFactory;
@@ -74,12 +78,23 @@ public class JGraphTNodeManager implements NodeOperationManager {
         }
     }
 
+    @Override
+    public List<String> findCloserThan(String nodeName, Integer weight)
+    {
+        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath( completeGraph, weight );
+        SingleSourcePaths paths = dijkstraShortestPath.getPaths( nodeName );
+        if ( paths == null ) {
+            return null;
+        }
+        return new ArrayList<>( paths.getGraph().edgeSet() );
+    }
+
     private static class MySimpleGraph extends AbstractBaseGraph<String, DefaultWeightedEdge>
             implements WeightedGraph<String, DefaultWeightedEdge>, DirectedGraph<String, DefaultWeightedEdge> {
 
         protected MySimpleGraph(EdgeFactory<String, DefaultWeightedEdge> ef)
         {
-            super( ef, true, false );
+            super( ef, true, true );
         }
     }
 }

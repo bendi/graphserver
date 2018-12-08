@@ -7,7 +7,6 @@ public class ShortestPathRequest implements ReadRequest {
     private final String toNode;
 
     /**
-     *
      * @param fromNode
      * @param toNode
      */

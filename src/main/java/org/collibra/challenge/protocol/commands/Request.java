@@ -15,4 +15,6 @@ public interface Request {
     String REMOVE_EDGE = "REMOVE EDGE ";
 
     String SHORTEST_PATH = "SHORTEST PATH ";
+
+    String CLOSER_THAN = "CLOSER THAN ";
 }

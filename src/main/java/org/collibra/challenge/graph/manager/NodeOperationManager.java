@@ -1,5 +1,7 @@
 package org.collibra.challenge.graph.manager;
 
+import java.util.List;
+
 import org.collibra.challenge.graph.error.NodeOperationException;
 
 public interface NodeOperationManager {
@@ -32,11 +34,17 @@ public interface NodeOperationManager {
     void removeEdge(String startNode, String endNode) throws NodeOperationException;
 
     /**
-     *
      * @param fromNode
      * @param toNode
      * @return
      */
     Integer findShortestPath(String fromNode, String toNode);
+
+    /**
+     * @param nodeName
+     * @param weight
+     * @return
+     */
+    List<String> findCloserThan(String nodeName, Integer weight);
 
 }

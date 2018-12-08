@@ -8,6 +8,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 
 import org.collibra.challenge.graph.manager.NodeOperationManager;
+import org.collibra.challenge.protocol.commands.CloserThanRequest;
+import org.collibra.challenge.protocol.commands.CloserThanResponse;
 import org.collibra.challenge.protocol.commands.ReadRequest;
 import org.collibra.challenge.protocol.commands.ShortestPathRequest;
 import org.collibra.challenge.protocol.commands.ShortestPathResponse;
@@ -34,9 +36,19 @@ public class ReadOperationsHandler extends MessageToMessageDecoder<ReadRequest> 
                 Integer value = handleReadRequest( (ShortestPathRequest) readRequest );
                 channelHandlerContext.writeAndFlush( new ShortestPathResponse( value ) );
             }
-        } catch ( Exception e ) {
+            else if ( readRequest instanceof CloserThanRequest ) {
+                List<String> paths = handleReadRequestList( (CloserThanRequest) readRequest );
+                channelHandlerContext.writeAndFlush( new CloserThanResponse( paths ) );
+            }
+        }
+        catch ( Exception e ) {
             LOG.error( "Exception computing shortest path", e );
         }
+    }
+
+    private List<String> handleReadRequestList(CloserThanRequest readRequest)
+    {
+        return nodeOperationManager.findCloserThan( readRequest.getNodeName(), readRequest.getWeight() );
     }
 
     private Integer handleReadRequest(ShortestPathRequest readRequest)

@@ -3,6 +3,7 @@ package org.collibra.challenge.protocol.handlers;
 import static org.collibra.challenge.protocol.commands.Request.ADD_EDGE;
 import static org.collibra.challenge.protocol.commands.Request.ADD_NODE;
 import static org.collibra.challenge.protocol.commands.Request.BYE_MATE;
+import static org.collibra.challenge.protocol.commands.Request.CLOSER_THAN;
 import static org.collibra.challenge.protocol.commands.Request.HI_I_M;
 import static org.collibra.challenge.protocol.commands.Request.REMOVE_EDGE;
 import static org.collibra.challenge.protocol.commands.Request.REMOVE_NODE;
@@ -20,6 +21,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 
 import org.collibra.challenge.protocol.commands.AddEdgeRequest;
 import org.collibra.challenge.protocol.commands.AddNodeRequest;
+import org.collibra.challenge.protocol.commands.CloserThanRequest;
 import org.collibra.challenge.protocol.commands.CommandNotRecognizedResponse;
 import org.collibra.challenge.protocol.commands.HandshakeStartRequest;
 import org.collibra.challenge.protocol.commands.RemoveEdgeRequest;
@@ -118,7 +120,14 @@ public class RequestDecoder extends ByteToMessageDecoder {
             if ( pathItems.length < 2 ) {
                 throw new UnsupportedCommandException( command );
             }
-            return new ShortestPathRequest( pathItems[0], pathItems[1] );
+            return new ShortestPathRequest( pathItems[ 0 ], pathItems[ 1 ] );
+        }
+        else if ( command.startsWith( CLOSER_THAN ) ) {
+            String[] weightedNode = command.substring( CLOSER_THAN.length() ).split( " " );
+            if ( weightedNode.length < 2 ) {
+                throw new UnsupportedCommandException( command );
+            }
+            return new CloserThanRequest( weightedNode[ 1 ], Integer.valueOf( weightedNode[ 0 ] ) );
         }
         else {
             throw new UnsupportedCommandException( "Unknown command: " + command );

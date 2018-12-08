@@ -1,5 +1,6 @@
 package org.collibra.challenge.graph.manager;
 
+import java.util.List;
 import java.util.concurrent.locks.StampedLock;
 
 import org.collibra.challenge.graph.error.NodeOperationException;
@@ -81,5 +82,22 @@ public class OptimisticNodeOperationManager implements NodeOperationManager {
             }
         }
         return value;
+    }
+
+    @Override
+    public List<String> findCloserThan(String nodeName, Integer weight)
+    {
+        long stamp = stampedLock.tryOptimisticRead();
+        List<String> nodes = nodeOperationManager.findCloserThan( nodeName, weight );
+        if ( !stampedLock.validate( stamp ) ) {
+            stamp = stampedLock.readLock();
+            try {
+                nodes = nodeOperationManager.findCloserThan( nodeName, weight );
+            }
+            finally {
+                stampedLock.unlockRead( stamp );
+            }
+        }
+        return nodes;
     }
 }
