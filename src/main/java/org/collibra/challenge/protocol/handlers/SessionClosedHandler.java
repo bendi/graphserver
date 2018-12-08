@@ -7,6 +7,7 @@ import io.netty.handler.timeout.ReadTimeoutException;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.collibra.challenge.protocol.commands.SessionClosedRequest;
 import org.collibra.challenge.protocol.commands.SessionClosedResponse;
 import org.collibra.challenge.protocol.event.ConnectionStartedEvent;
 
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class SessionClosedHandler extends MessageToMessageDecoder<SessionClosedResponse> {
+public class SessionClosedHandler extends MessageToMessageDecoder<SessionClosedRequest> {
 
     private static final Logger LOG = LogManager.getLogger();
 
@@ -66,7 +67,7 @@ public class SessionClosedHandler extends MessageToMessageDecoder<SessionClosedR
     }
 
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, SessionClosedResponse sessionClosedResponse, List<Object> list) throws Exception {
+    protected void decode(ChannelHandlerContext channelHandlerContext, SessionClosedRequest sessionClosedRequest, List<Object> list) throws Exception {
         closeSession(channelHandlerContext);
     }
 }
