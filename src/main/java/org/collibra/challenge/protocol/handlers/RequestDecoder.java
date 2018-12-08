@@ -5,10 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.collibra.challenge.protocol.commands.CommandNotRecognized;
-import org.collibra.challenge.protocol.commands.HandshakeStartRequest;
-import org.collibra.challenge.protocol.commands.Request;
-import org.collibra.challenge.protocol.commands.SessionClosedRequest;
+import org.collibra.challenge.protocol.commands.*;
 import org.collibra.challenge.protocol.exception.UnsupportedCommandException;
 
 import java.io.ByteArrayOutputStream;
@@ -52,10 +49,11 @@ public class RequestDecoder extends ByteToMessageDecoder {
         } catch (UnsupportedCommandException e) {
             LOG.warn("Unsupported command received", e.getMessage());
             LOG.debug(e);
-            channelHandlerContext.writeAndFlush(new CommandNotRecognized());
+            channelHandlerContext.writeAndFlush(new CommandNotRecognizedResponse());
         } catch (Exception e) {
             LOG.error("Unknown error happened", e);
             byteBuf.resetReaderIndex();
+            channelHandlerContext.writeAndFlush(new CommandNotRecognizedResponse());
         }
     }
 
@@ -66,24 +64,30 @@ public class RequestDecoder extends ByteToMessageDecoder {
         LOG.info("Received command: {}", command);
 
         if (command.startsWith("HI, I'M ")) {
-            // handle HI
             String name = command.substring("HI, I'M ".length());
             return new HandshakeStartRequest(name);
         } else if (command.startsWith("BYE MATE")) {
             return new SessionClosedRequest();
-        } else if (command.startsWith("ADD NODE")) {
-
-        } else if (command.startsWith("ADD EDGE")) {
-
-        } else if (command.startsWith("REMOVE NODE")) {
-
-        } else if (command.startsWith("REMOVE EDGE")) {
-
+        } else if (command.startsWith("ADD NODE ")) {
+            String name = command.substring(("ADD NODE ").length());
+            return new AddNodeRequest(name);
+        } else if (command.startsWith("ADD EDGE ")) {
+            String[] edgeItems = command.substring("ADD EDGE ".length()).split(" ");
+            if (edgeItems.length < 3) {
+                throw new UnsupportedCommandException(command);
+            }
+            return new AddEdgeRequest(edgeItems[0], edgeItems[1], Integer.parseInt(edgeItems[2]));
+        } else if (command.startsWith("REMOVE NODE ")) {
+            String name = command.substring("REMOVE NODE ".length());
+            return new RemoveNodeRequest(name);
+        } else if (command.startsWith("REMOVE EDGE ")) {
+            String[] edgeItems = command.substring("REMOVE EDGE ".length()).split(" ");
+            if (edgeItems.length < 2) {
+                throw new UnsupportedCommandException(command);
+            }
+            return new RemoveEdgeRequest(edgeItems[0], edgeItems[1]);
         } else {
             throw new UnsupportedCommandException("Unknown command: " + command);
         }
-
-        // FIXME [mb] - after adding support for all commands this should go away
-        return null;
     }
 }

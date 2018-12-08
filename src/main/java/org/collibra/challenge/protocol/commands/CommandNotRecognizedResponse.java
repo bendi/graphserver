@@ -1,6 +1,6 @@
 package org.collibra.challenge.protocol.commands;
 
-public class CommandNotRecognized implements Response {
+public class CommandNotRecognizedResponse implements Response {
 
     @Override
     public String toResponseString() {
