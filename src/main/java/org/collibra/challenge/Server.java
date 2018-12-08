@@ -7,20 +7,25 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
+import io.netty.channel.DefaultEventLoop;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.util.concurrent.DefaultEventExecutor;
 
-import org.collibra.challenge.graph.handler.NodeOperationHandler;
+import org.collibra.challenge.graph.handler.WriteNodeOperationsHandler;
 import org.collibra.challenge.graph.manager.JGraphTNodeManager;
 import org.collibra.challenge.graph.manager.NodeOperationManager;
+import org.collibra.challenge.protocol.commands.Request;
 import org.collibra.challenge.protocol.handlers.RequestDecoder;
 import org.collibra.challenge.protocol.handlers.ResponseEncoder;
 import org.collibra.challenge.protocol.handlers.SessionClosedHandler;
@@ -72,7 +77,15 @@ public class Server {
                             pipeline.addLast( new SessionStartHandler( sessionId ) );
                             pipeline.addLast( new SessionClosedHandler( sessionId ) );
 
-                            pipeline.addLast( new NodeOperationHandler( nodeOperationManager ) );
+                            pipeline.addLast( new DefaultEventExecutor(), new WriteNodeOperationsHandler( nodeOperationManager ) );
+
+                            pipeline.addLast( new SimpleChannelInboundHandler<Request>() {
+                                @Override
+                                protected void channelRead0(ChannelHandlerContext channelHandlerContext, Request request) throws Exception
+                                {
+                                    LOG.error( "Found unhandled request: {}", request.getClass().getCanonicalName() );
+                                }
+                            } );
                         }
                     } )
                     .option( ChannelOption.SO_BACKLOG, 128 )

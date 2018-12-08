@@ -1,5 +1,13 @@
 package org.collibra.challenge.protocol.handlers;
 
+import static org.collibra.challenge.protocol.commands.Request.ADD_EDGE;
+import static org.collibra.challenge.protocol.commands.Request.ADD_NODE;
+import static org.collibra.challenge.protocol.commands.Request.BYE_MATE;
+import static org.collibra.challenge.protocol.commands.Request.HI_I_M;
+import static org.collibra.challenge.protocol.commands.Request.REMOVE_EDGE;
+import static org.collibra.challenge.protocol.commands.Request.REMOVE_NODE;
+import static org.collibra.challenge.protocol.commands.Request.SHORTEST_PATH;
+
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -18,13 +26,14 @@ import org.collibra.challenge.protocol.commands.RemoveEdgeRequest;
 import org.collibra.challenge.protocol.commands.RemoveNodeRequest;
 import org.collibra.challenge.protocol.commands.Request;
 import org.collibra.challenge.protocol.commands.SessionClosedRequest;
+import org.collibra.challenge.protocol.commands.ShortestPathRequest;
 import org.collibra.challenge.protocol.exception.UnsupportedCommandException;
 
 public class RequestDecoder extends ByteToMessageDecoder {
 
     private static final Logger LOG = LogManager.getLogger();
 
-    private static final int COMMAND_MAX_LENGTH = 200;
+    private static final int COMMAND_MAX_LENGTH = 200; // safety first ;)
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception
@@ -75,34 +84,41 @@ public class RequestDecoder extends ByteToMessageDecoder {
 
         LOG.info( "Received command: {}", command );
 
-        if ( command.startsWith( "HI, I'M " ) ) {
-            String name = command.substring( "HI, I'M ".length() );
+        if ( command.startsWith( HI_I_M ) ) {
+            String name = command.substring( HI_I_M.length() );
             return new HandshakeStartRequest( name );
         }
-        else if ( command.startsWith( "BYE MATE" ) ) {
+        else if ( command.startsWith( BYE_MATE ) ) {
             return new SessionClosedRequest();
         }
-        else if ( command.startsWith( "ADD NODE " ) ) {
-            String name = command.substring( ( "ADD NODE " ).length() );
+        else if ( command.startsWith( ADD_NODE ) ) {
+            String name = command.substring( ( ADD_NODE ).length() );
             return new AddNodeRequest( name );
         }
-        else if ( command.startsWith( "ADD EDGE " ) ) {
-            String[] edgeItems = command.substring( "ADD EDGE ".length() ).split( " " );
+        else if ( command.startsWith( ADD_EDGE ) ) {
+            String[] edgeItems = command.substring( ADD_EDGE.length() ).split( " " );
             if ( edgeItems.length < 3 ) {
                 throw new UnsupportedCommandException( command );
             }
             return new AddEdgeRequest( edgeItems[ 0 ], edgeItems[ 1 ], Integer.parseInt( edgeItems[ 2 ] ) );
         }
-        else if ( command.startsWith( "REMOVE NODE " ) ) {
-            String name = command.substring( "REMOVE NODE ".length() );
+        else if ( command.startsWith( REMOVE_NODE ) ) {
+            String name = command.substring( REMOVE_NODE.length() );
             return new RemoveNodeRequest( name );
         }
-        else if ( command.startsWith( "REMOVE EDGE " ) ) {
-            String[] edgeItems = command.substring( "REMOVE EDGE ".length() ).split( " " );
+        else if ( command.startsWith( REMOVE_EDGE ) ) {
+            String[] edgeItems = command.substring( REMOVE_EDGE.length() ).split( " " );
             if ( edgeItems.length < 2 ) {
                 throw new UnsupportedCommandException( command );
             }
             return new RemoveEdgeRequest( edgeItems[ 0 ], edgeItems[ 1 ] );
+        }
+        else if ( command.startsWith( SHORTEST_PATH ) ) {
+            String[] pathItems = command.substring( SHORTEST_PATH.length() ).split( " " );
+            if ( pathItems.length < 2 ) {
+                throw new UnsupportedCommandException( command );
+            }
+            return new ShortestPathRequest( pathItems[0], pathItems[1] );
         }
         else {
             throw new UnsupportedCommandException( "Unknown command: " + command );

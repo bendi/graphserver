@@ -1,6 +1,6 @@
 package org.collibra.challenge.protocol.commands;
 
-public class AddEdgeRequest implements Request {
+public class AddEdgeRequest implements WriteRequest {
 
     private final String startNode;
 

@@ -1,6 +1,6 @@
 package org.collibra.challenge.protocol.commands;
 
-public class RemoveEdgeRequest implements Request {
+public class RemoveEdgeRequest implements WriteRequest {
 
     private final String startNode;
 

@@ -1,6 +1,6 @@
 package org.collibra.challenge.protocol.commands;
 
-public class AddNodeRequest implements Request {
+public class AddNodeRequest implements WriteRequest {
 
     private final String nodeName;
 

@@ -22,8 +22,9 @@ import org.collibra.challenge.protocol.commands.RemoveEdgeRequest;
 import org.collibra.challenge.protocol.commands.RemoveNodeRequest;
 import org.collibra.challenge.protocol.commands.Request;
 import org.collibra.challenge.protocol.commands.Response;
+import org.collibra.challenge.protocol.commands.WriteRequest;
 
-public class NodeOperationHandler extends MessageToMessageDecoder<Request> {
+public class WriteNodeOperationsHandler extends MessageToMessageDecoder<WriteRequest> {
 
     private static final Logger LOG = LogManager.getLogger();
 
@@ -32,13 +33,13 @@ public class NodeOperationHandler extends MessageToMessageDecoder<Request> {
     /**
      * @param nodeOperationManager
      */
-    public NodeOperationHandler(NodeOperationManager nodeOperationManager)
+    public WriteNodeOperationsHandler(NodeOperationManager nodeOperationManager)
     {
         this.nodeOperationManager = nodeOperationManager;
     }
 
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, Request request, List<Object> list) throws Exception
+    protected void decode(ChannelHandlerContext channelHandlerContext, WriteRequest request, List<Object> list) throws Exception
     {
         try {
             Response response = handleGraphOperationRequest( request );

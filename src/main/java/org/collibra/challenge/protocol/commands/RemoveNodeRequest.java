@@ -1,6 +1,6 @@
 package org.collibra.challenge.protocol.commands;
 
-public class RemoveNodeRequest implements Request {
+public class RemoveNodeRequest implements WriteRequest {
 
     private final String nodeName;
 
