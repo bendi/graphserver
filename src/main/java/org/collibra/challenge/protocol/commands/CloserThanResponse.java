@@ -1,9 +1,11 @@
 package org.collibra.challenge.protocol.commands;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import org.collibra.challenge.protocol.ProtocolPrinter;
 
 public class CloserThanResponse implements Response {
+
     private final List<String> paths;
 
     /**
@@ -14,9 +16,15 @@ public class CloserThanResponse implements Response {
         this.paths = paths;
     }
 
-    @Override
-    public String toResponseString()
+    public List<String> getPaths()
     {
-        return paths.stream().collect( Collectors.joining( "," ) );
+        return paths;
     }
+
+    @Override
+    public byte[] print(ProtocolPrinter protocolPrinter)
+    {
+        return protocolPrinter.print( this );
+    }
+
 }

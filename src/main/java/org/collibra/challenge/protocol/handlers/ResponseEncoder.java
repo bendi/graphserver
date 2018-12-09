@@ -9,11 +9,23 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 
+import org.collibra.challenge.protocol.ProtocolPrinter;
 import org.collibra.challenge.protocol.commands.Response;
 
 public class ResponseEncoder extends ChannelOutboundHandlerAdapter {
 
     private static final Logger LOG = LogManager.getLogger();
+
+    private final ProtocolPrinter protocolPrinter;
+
+    /**
+     *
+     * @param protocolPrinter
+     */
+    public ResponseEncoder(ProtocolPrinter protocolPrinter)
+    {
+        this.protocolPrinter = protocolPrinter;
+    }
 
     @Override
     public void write(ChannelHandlerContext channelHandlerContext, Object message, ChannelPromise promise) throws Exception
@@ -25,11 +37,7 @@ public class ResponseEncoder extends ChannelOutboundHandlerAdapter {
 
     private void sendResponse(ChannelHandlerContext channelHandlerContext, Response response, ChannelPromise promise)
     {
-        String responseString = response.toResponseString();
-
-        String responseWithTerminator = responseString + "\n";
-
-        byte[] responseBytes = responseWithTerminator.getBytes( StandardCharsets.US_ASCII );
+        byte[] responseBytes = response.print( protocolPrinter );
 
         ByteBuf byteBuf = channelHandlerContext.alloc().buffer( responseBytes.length );
 

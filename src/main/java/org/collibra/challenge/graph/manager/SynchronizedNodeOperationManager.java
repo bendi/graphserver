@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.collibra.challenge.graph.error.NodeOperationException;
 
+/**
+ * The simplies synchronisation proxy - using <em>synchronised</em> keyword
+ */
 public class SynchronizedNodeOperationManager implements NodeOperationManager {
 
     private final NodeOperationManager nodeOperationManager;

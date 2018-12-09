@@ -1,8 +1,8 @@
 package org.collibra.challenge.protocol.commands;
 
-public class HandshakeConfirmationResponse implements Response {
+import org.collibra.challenge.protocol.ProtocolPrinter;
 
-    private final String COMMAND_TEMPLATE = "HI %s";
+public class HandshakeConfirmationResponse implements Response {
 
     private final String name;
 
@@ -14,10 +14,14 @@ public class HandshakeConfirmationResponse implements Response {
         this.name = name;
     }
 
-    @Override
-    public String toResponseString()
+    public String getName()
     {
-        return String.format( COMMAND_TEMPLATE, name );
+        return name;
     }
 
+    @Override
+    public byte[] print(ProtocolPrinter protocolPrinter)
+    {
+        return protocolPrinter.print( this );
+    }
 }

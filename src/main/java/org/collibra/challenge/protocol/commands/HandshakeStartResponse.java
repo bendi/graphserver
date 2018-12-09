@@ -2,9 +2,9 @@ package org.collibra.challenge.protocol.commands;
 
 import java.util.UUID;
 
-public class HandshakeStartResponse implements Response {
+import org.collibra.challenge.protocol.ProtocolPrinter;
 
-    private static final String COMMAND_TEMPLATE = "HI, I'M %s";
+public class HandshakeStartResponse implements Response {
 
     private final UUID sessionId;
 
@@ -13,9 +13,15 @@ public class HandshakeStartResponse implements Response {
         this.sessionId = sessionId;
     }
 
-    @Override
-    public String toResponseString()
+    public UUID getSessionId()
     {
-        return String.format( COMMAND_TEMPLATE, sessionId.toString() );
+        return sessionId;
     }
+
+    @Override
+    public byte[] print(ProtocolPrinter protocolPrinter)
+    {
+        return protocolPrinter.print( this );
+    }
+
 }

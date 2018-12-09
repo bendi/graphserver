@@ -25,6 +25,8 @@ import org.collibra.challenge.graph.handler.WriteNodeOperationsHandler;
 import org.collibra.challenge.graph.manager.JGraphTNodeManager;
 import org.collibra.challenge.graph.manager.NodeOperationManager;
 import org.collibra.challenge.graph.manager.SynchronizedNodeOperationManager;
+import org.collibra.challenge.protocol.ProtocolParser;
+import org.collibra.challenge.protocol.ProtocolPrinter;
 import org.collibra.challenge.protocol.commands.Request;
 import org.collibra.challenge.protocol.handlers.RequestDecoder;
 import org.collibra.challenge.protocol.handlers.ResponseEncoder;
@@ -34,14 +36,14 @@ import org.collibra.challenge.protocol.handlers.SessionStartHandler;
 /**
  *
  */
-public class Server {
+public class CollibraChallengeServer {
 
     private static final Duration READ_TIMEOUT = Duration.ofSeconds( 30 );
 
     public static void main(String[] args) throws Exception
     {
-        Server server = new Server();
-        server.run( 50_000 );
+        CollibraChallengeServer collibraChallengeServer = new CollibraChallengeServer();
+        collibraChallengeServer.run( 50_000 );
     }
 
     public void run(int port) throws Exception
@@ -72,8 +74,8 @@ public class Server {
                             pipeline.addLast( "readTimeoutHandler", new ReadTimeoutHandler( (int) READ_TIMEOUT.getSeconds() ) );
 
                             pipeline.addLast( new LoggingHandler( LogLevel.INFO ) );
-                            pipeline.addLast( new ResponseEncoder() );
-                            pipeline.addLast( new RequestDecoder() );
+                            pipeline.addLast( new ResponseEncoder( ProtocolPrinter.getDefaultProtocolPrinter() ) );
+                            pipeline.addLast( new RequestDecoder( ProtocolParser.getDefaultProtocolParser() ) );
 
                             pipeline.addLast( new SessionStartHandler( sessionId ) );
                             pipeline.addLast( new SessionClosedHandler( sessionId ) );

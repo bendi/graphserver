@@ -1,5 +1,7 @@
 package org.collibra.challenge.protocol.commands;
 
+import org.collibra.challenge.protocol.ProtocolPrinter;
+
 public class EdgeOperationResponse implements Response {
 
     private final boolean removed;
@@ -20,14 +22,15 @@ public class EdgeOperationResponse implements Response {
         this.removed = false;
     }
 
-    @Override
-    public String toResponseString()
+    public boolean isRemoved()
     {
-        if ( removed ) {
-            return "EDGE REMOVED";
-        }
-        else {
-            return "EDGE ADDED";
-        }
+        return removed;
     }
+
+    @Override
+    public byte[] print(ProtocolPrinter protocolPrinter)
+    {
+        return protocolPrinter.print( this );
+    }
+
 }

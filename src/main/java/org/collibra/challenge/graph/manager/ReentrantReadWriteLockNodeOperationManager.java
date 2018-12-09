@@ -6,6 +6,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.collibra.challenge.graph.error.NodeOperationException;
 
+/**
+ * ReadWriteLock proxy around NodeOperationManager
+ */
 public class ReentrantReadWriteLockNodeOperationManager implements NodeOperationManager {
 
     private final ReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();

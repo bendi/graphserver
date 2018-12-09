@@ -1,7 +1,9 @@
 package org.collibra.challenge.protocol.commands;
 
+import org.collibra.challenge.protocol.ProtocolPrinter;
+
 public interface Response {
 
-    String toResponseString();
+    byte[] print(ProtocolPrinter protocolPrinter);
 
 }

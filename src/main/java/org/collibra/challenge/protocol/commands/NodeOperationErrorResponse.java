@@ -1,5 +1,7 @@
 package org.collibra.challenge.protocol.commands;
 
+import org.collibra.challenge.protocol.ProtocolPrinter;
+
 public class NodeOperationErrorResponse implements Response {
 
     public enum ErrorType {NotFound, AlreadyExists}
@@ -14,17 +16,15 @@ public class NodeOperationErrorResponse implements Response {
         this.errorType = errorType;
     }
 
-    @Override
-    public String toResponseString()
+    public ErrorType getErrorType()
     {
-        switch (errorType) {
-        case NotFound:
-            return "ERROR: NODE NOT FOUND";
-        case AlreadyExists:
-            return "ERROR: NODE ALREADY EXISTS";
-        }
+        return errorType;
+    }
 
-        throw new IllegalStateException( "Unknown error type: " + errorType );
+    @Override
+    public byte[] print(ProtocolPrinter protocolPrinter)
+    {
+        return protocolPrinter.print( this );
     }
 
 }

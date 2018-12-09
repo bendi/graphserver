@@ -5,6 +5,9 @@ import java.util.concurrent.locks.StampedLock;
 
 import org.collibra.challenge.graph.error.NodeOperationException;
 
+/**
+ * Optimisitic locking proxy around NodeOperationManager
+ */
 public class OptimisticNodeOperationManager implements NodeOperationManager {
 
     private final NodeOperationManager nodeOperationManager;

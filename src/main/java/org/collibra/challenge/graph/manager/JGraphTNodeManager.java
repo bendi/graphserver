@@ -18,6 +18,9 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 import org.jgrapht.traverse.ClosestFirstIterator;
 
+/**
+ * Directed graph workhorse - responsible for managing all node/edge operations
+ */
 public class JGraphTNodeManager implements NodeOperationManager {
 
     private static final Logger LOG = LogManager.getLogger();

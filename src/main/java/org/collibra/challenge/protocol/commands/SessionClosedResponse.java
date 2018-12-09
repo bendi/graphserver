@@ -2,9 +2,9 @@ package org.collibra.challenge.protocol.commands;
 
 import java.time.Duration;
 
-public class SessionClosedResponse implements Response {
+import org.collibra.challenge.protocol.ProtocolPrinter;
 
-    private final static String COMMAND_PATTERN = "BYE %s, WE SPOKE FOR %d MS";
+public class SessionClosedResponse implements Response {
 
     private final String name;
 
@@ -31,8 +31,9 @@ public class SessionClosedResponse implements Response {
     }
 
     @Override
-    public String toResponseString()
+    public byte[] print(ProtocolPrinter protocolPrinter)
     {
-        return String.format( COMMAND_PATTERN, name == null ? "" : name, sessionDuration.toMillis() );
+        return protocolPrinter.print( this );
     }
+
 }
