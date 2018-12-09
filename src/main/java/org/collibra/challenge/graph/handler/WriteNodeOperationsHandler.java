@@ -43,7 +43,7 @@ public class WriteNodeOperationsHandler extends MessageToMessageDecoder<WriteReq
     {
         try {
             Response response = handleGraphOperationRequest( request );
-            channelHandlerContext.writeAndFlush( response );
+            channelHandlerContext.writeAndFlush( response ).get();
         }
         catch ( NodeMissingException e ) {
             channelHandlerContext.writeAndFlush( new NodeOperationErrorResponse( ErrorType.NotFound ) );
