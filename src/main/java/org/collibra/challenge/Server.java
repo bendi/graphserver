@@ -72,6 +72,7 @@ public class Server {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline.addLast( "readTimeoutHandler", new ReadTimeoutHandler( (int) READ_TIMEOUT.getSeconds() ) );
 
+                            pipeline.addLast( new LoggingHandler( LogLevel.INFO ) );
                             pipeline.addLast( new ResponseEncoder() );
                             pipeline.addLast( new RequestDecoder() );
 
