@@ -41,9 +41,7 @@ public class SessionClosedHandler extends MessageToMessageDecoder<SessionClosedR
             connectionName = ( (ConnectionStartedEvent) userEvent ).getConnectionName();
             LOG.info( "Connection started with: {},", connectionName );
         }
-        else {
-            super.userEventTriggered( channelHandlerContext, userEvent );
-        }
+        super.userEventTriggered( channelHandlerContext, userEvent );
     }
 
     @Override

@@ -68,9 +68,11 @@ public class JGraphTNodeManager implements NodeOperationManager {
     @Override
     public void removeEdge(String startNode, String endNode) throws NodeOperationException
     {
-        if ( completeGraph.removeEdge( startNode, endNode ) == null ) {
+        if ( !completeGraph.containsVertex( startNode ) || !completeGraph.containsVertex( endNode ) ) {
             throw new NodeMissingException();
         }
+
+        completeGraph.removeEdge( startNode, endNode );
     }
 
     @Override

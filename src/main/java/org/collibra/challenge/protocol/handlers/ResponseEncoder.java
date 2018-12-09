@@ -27,8 +27,6 @@ public class ResponseEncoder extends ChannelOutboundHandlerAdapter {
     {
         String responseString = response.toResponseString();
 
-        LOG.info( "Responding with: {}", responseString );
-
         String responseWithTerminator = responseString + "\n";
 
         byte[] responseBytes = responseWithTerminator.getBytes( StandardCharsets.US_ASCII );
@@ -37,8 +35,6 @@ public class ResponseEncoder extends ChannelOutboundHandlerAdapter {
 
         byteBuf.writeBytes( responseBytes );
 
-        channelHandlerContext.writeAndFlush( byteBuf, promise ).addListener( (future) -> {
-            LOG.info( "Write finished, {}", responseString );
-        } );
+        channelHandlerContext.writeAndFlush( byteBuf, promise );
     }
 }
