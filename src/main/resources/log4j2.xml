@@ -11,11 +11,11 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="io.netty" level="trace" additivity="false">
+        <Logger name="io.netty" level="info" additivity="false">
             <AppenderRef ref="Console" level="off"/>
             <AppenderRef ref="MyFile"/>
         </Logger>
-        <Root level="trace">
+        <Root level="info">
             <AppenderRef ref="Console" level="off"/>
             <AppenderRef ref="MyFile"/>
         </Root>

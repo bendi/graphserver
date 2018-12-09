@@ -1,8 +1,8 @@
 package org.collibra.challenge.graph.manager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,12 +13,10 @@ import org.collibra.challenge.graph.error.NodeOperationException.NodeMissingExce
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
-import org.jgrapht.alg.interfaces.ShortestPathAlgorithm.SingleSourcePaths;
-import org.jgrapht.alg.shortestpath.BellmanFordShortestPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.alg.shortestpath.JohnsonShortestPaths;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
+import org.jgrapht.traverse.ClosestFirstIterator;
 
 public class JGraphTNodeManager implements NodeOperationManager {
 
@@ -28,8 +26,7 @@ public class JGraphTNodeManager implements NodeOperationManager {
 
     public JGraphTNodeManager()
     {
-        completeGraph = GraphTypeBuilder.<String, DefaultWeightedEdge>directed()
-                .allowingMultipleEdges( true )
+        completeGraph = GraphTypeBuilder.<String, DefaultWeightedEdge>directed().allowingMultipleEdges( true )
                 .allowingSelfLoops( true )
                 .edgeClass( DefaultWeightedEdge.class )
                 .weighted( true )
@@ -78,7 +75,7 @@ public class JGraphTNodeManager implements NodeOperationManager {
     @Override
     public Integer findShortestPath(String fromNode, String toNode)
     {
-        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath( completeGraph );
+        ShortestPathAlgorithm dijkstraShortestPath = new DijkstraShortestPath( completeGraph );
         try {
             GraphPath path = dijkstraShortestPath.getPath( fromNode, toNode );
             if ( path == null ) {
@@ -94,17 +91,17 @@ public class JGraphTNodeManager implements NodeOperationManager {
     @Override
     public List<String> findCloserThan(String nodeName, Integer weight)
     {
-        ShortestPathAlgorithm shortestPath = new BellmanFordShortestPath( completeGraph, weight );
-        SingleSourcePaths paths = shortestPath.getPaths( nodeName );
-        if ( paths == null ) {
-            return null;
-        }
+        ClosestFirstIterator<String, DefaultWeightedEdge> cfi = new ClosestFirstIterator<>( completeGraph, nodeName, weight - 0.2 );
 
-        Set<String> vertexSet = paths.getGraph().vertexSet();
+        List<String> result = new ArrayList<>();
 
-        List<String> ret = new ArrayList<>( vertexSet );
-        ret.remove( nodeName );
-        return ret;
+        cfi.forEachRemaining( result::add );
+
+        result.remove( nodeName );
+
+        Collections.sort( result );
+
+        return result;
     }
 
 }

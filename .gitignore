@@ -17,3 +17,5 @@ bedkowski.ipr
 log/
 target/
 src/test/resources/testclient.jar
+bla.txt
+collibra-challenge.log
