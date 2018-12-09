@@ -1,14 +1,5 @@
 package org.collibra.challenge.protocol;
 
-import static org.collibra.challenge.protocol.commands.Request.ADD_EDGE;
-import static org.collibra.challenge.protocol.commands.Request.ADD_NODE;
-import static org.collibra.challenge.protocol.commands.Request.BYE_MATE;
-import static org.collibra.challenge.protocol.commands.Request.CLOSER_THAN;
-import static org.collibra.challenge.protocol.commands.Request.HI_I_M;
-import static org.collibra.challenge.protocol.commands.Request.REMOVE_EDGE;
-import static org.collibra.challenge.protocol.commands.Request.REMOVE_NODE;
-import static org.collibra.challenge.protocol.commands.Request.SHORTEST_PATH;
-
 import java.nio.charset.StandardCharsets;
 
 import org.apache.logging.log4j.LogManager;
@@ -28,6 +19,22 @@ import org.collibra.challenge.protocol.exception.UnsupportedCommandException;
 public class DefaultProtocolParser implements ProtocolParser {
 
     private static final Logger LOG = LogManager.getLogger();
+
+    private static final String HI_I_M = "HI, I'M ";
+
+    private static final String BYE_MATE = "BYE MATE";
+
+    private static final String ADD_NODE = "ADD NODE ";
+
+    private static final String ADD_EDGE = "ADD EDGE ";
+
+    private static final String REMOVE_NODE = "REMOVE NODE ";
+
+    private static final String REMOVE_EDGE = "REMOVE EDGE ";
+
+    private static final String SHORTEST_PATH = "SHORTEST PATH ";
+
+    private static final String CLOSER_THAN = "CLOSER THAN ";
 
     @Override
     public Request parse(byte[] commandBytes) throws UnsupportedCommandException
