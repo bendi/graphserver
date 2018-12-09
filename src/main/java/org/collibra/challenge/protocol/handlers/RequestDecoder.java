@@ -42,7 +42,6 @@ public class RequestDecoder extends ByteToMessageDecoder {
         try {
             byte[] commandBytes = null;
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            int commandLength = 0;
             while ( byteBuf.isReadable() ) {
                 byte b = byteBuf.readByte();
                 if ( b == 10 ) {
