@@ -52,6 +52,7 @@
     </dependencies>
 
     <build>
+        <finalName>bedkowski</finalName>
 
         <plugins>
             <plugin>
@@ -65,6 +66,9 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                    <finalName>bedkowski</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <outputDirectory>${project.basedir}</outputDirectory>
                 </configuration>
             </plugin>
 
