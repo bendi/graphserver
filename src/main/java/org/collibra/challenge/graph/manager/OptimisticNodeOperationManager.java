@@ -3,7 +3,7 @@ package org.collibra.challenge.graph.manager;
 import java.util.List;
 import java.util.concurrent.locks.StampedLock;
 
-import org.collibra.challenge.graph.error.NodeOperationException;
+import org.collibra.challenge.graph.exception.NodeOperationException;
 
 /**
  * Optimisitic locking proxy around NodeOperationManager

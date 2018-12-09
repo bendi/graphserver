@@ -2,7 +2,7 @@ package org.collibra.challenge.graph.manager;
 
 import java.util.List;
 
-import org.collibra.challenge.graph.error.NodeOperationException;
+import org.collibra.challenge.graph.exception.NodeOperationException;
 
 public interface NodeOperationManager {
 

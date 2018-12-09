@@ -1,6 +1,7 @@
 package org.collibra.challenge.protocol.handlers;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,6 +37,7 @@ public class ResponseEncoder extends ChannelOutboundHandlerAdapter {
     }
 
     private void sendResponse(ChannelHandlerContext channelHandlerContext, Response response, ChannelPromise promise)
+            throws ExecutionException, InterruptedException
     {
         byte[] responseBytes = response.print( protocolPrinter );
 
@@ -43,6 +45,6 @@ public class ResponseEncoder extends ChannelOutboundHandlerAdapter {
 
         byteBuf.writeBytes( responseBytes );
 
-        channelHandlerContext.writeAndFlush( byteBuf, promise );
+        channelHandlerContext.writeAndFlush( byteBuf, promise ).get();
     }
 }

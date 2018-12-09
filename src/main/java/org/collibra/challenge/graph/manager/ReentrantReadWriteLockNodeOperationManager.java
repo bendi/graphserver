@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.collibra.challenge.graph.error.NodeOperationException;
+import org.collibra.challenge.graph.exception.NodeOperationException;
 
 /**
  * ReadWriteLock proxy around NodeOperationManager

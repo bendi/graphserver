@@ -7,9 +7,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import org.collibra.challenge.graph.error.NodeOperationException;
-import org.collibra.challenge.graph.error.NodeOperationException.NodeAlreadyExistsException;
-import org.collibra.challenge.graph.error.NodeOperationException.NodeMissingException;
+import org.collibra.challenge.graph.exception.NodeOperationException;
+import org.collibra.challenge.graph.exception.NodeOperationException.NodeAlreadyExistsException;
+import org.collibra.challenge.graph.exception.NodeOperationException.NodeMissingException;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
@@ -78,9 +78,9 @@ public class JGraphTNodeManager implements NodeOperationManager {
     @Override
     public Integer findShortestPath(String fromNode, String toNode)
     {
-        ShortestPathAlgorithm dijkstraShortestPath = new DijkstraShortestPath( completeGraph );
+        ShortestPathAlgorithm<String, DefaultWeightedEdge> dijkstraShortestPath = new DijkstraShortestPath<>( completeGraph );
         try {
-            GraphPath path = dijkstraShortestPath.getPath( fromNode, toNode );
+            GraphPath<String, DefaultWeightedEdge> path = dijkstraShortestPath.getPath( fromNode, toNode );
             if ( path == null ) {
                 return Integer.MAX_VALUE;
             }

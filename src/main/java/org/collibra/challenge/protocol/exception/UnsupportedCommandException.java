@@ -2,6 +2,8 @@ package org.collibra.challenge.protocol.exception;
 
 public class UnsupportedCommandException extends Exception {
 
+    private static final long serialVersionUID = 4132420284713663722L;
+
     public UnsupportedCommandException()
     {
 

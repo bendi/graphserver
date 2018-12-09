@@ -7,9 +7,9 @@ import org.apache.logging.log4j.Logger;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 
-import org.collibra.challenge.graph.error.NodeOperationException;
-import org.collibra.challenge.graph.error.NodeOperationException.NodeAlreadyExistsException;
-import org.collibra.challenge.graph.error.NodeOperationException.NodeMissingException;
+import org.collibra.challenge.graph.exception.NodeOperationException;
+import org.collibra.challenge.graph.exception.NodeOperationException.NodeAlreadyExistsException;
+import org.collibra.challenge.graph.exception.NodeOperationException.NodeMissingException;
 import org.collibra.challenge.graph.manager.NodeOperationManager;
 import org.collibra.challenge.protocol.commands.AddEdgeRequest;
 import org.collibra.challenge.protocol.commands.AddNodeRequest;
@@ -46,14 +46,14 @@ public class WriteNodeOperationsHandler extends MessageToMessageDecoder<WriteReq
             channelHandlerContext.writeAndFlush( response ).get();
         }
         catch ( NodeMissingException e ) {
-            channelHandlerContext.writeAndFlush( new NodeOperationErrorResponse( ErrorType.NotFound ) );
+            channelHandlerContext.writeAndFlush( new NodeOperationErrorResponse( ErrorType.NotFound ) ).get();
         }
         catch ( NodeAlreadyExistsException e ) {
-            channelHandlerContext.writeAndFlush( new NodeOperationErrorResponse( ErrorType.AlreadyExists ) );
+            channelHandlerContext.writeAndFlush( new NodeOperationErrorResponse( ErrorType.AlreadyExists ) ).get();
         }
         catch ( Exception e ) {
             LOG.error( "Unknown error happened.", e );
-            channelHandlerContext.writeAndFlush( new CommandNotRecognizedResponse() );
+            channelHandlerContext.writeAndFlush( new CommandNotRecognizedResponse() ).get();
         }
     }
 

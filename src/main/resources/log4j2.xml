@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
+    <Properties>
+        <Property name="log_level">${sys:log_level:-off}</Property>
+    </Properties>
     <Appenders>
-        <File name="MyFile" fileName="collibra-challenge.log">
-            <PatternLayout>
-                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
-            </PatternLayout>
-        </File>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %c{1.} - %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="io.netty" level="info" additivity="false">
-            <AppenderRef ref="Console" level="off"/>
-            <AppenderRef ref="MyFile"/>
+        <Logger name="io.netty" level="${log_level}" additivity="false">
+            <AppenderRef ref="Console"/>
         </Logger>
-        <Root level="info">
-            <AppenderRef ref="Console" level="off"/>
-            <AppenderRef ref="MyFile"/>
+        <Root level="${log_level}">
+            <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
 </Configuration>

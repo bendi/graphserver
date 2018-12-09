@@ -24,6 +24,7 @@ import org.collibra.challenge.graph.handler.ReadOperationsHandler;
 import org.collibra.challenge.graph.handler.WriteNodeOperationsHandler;
 import org.collibra.challenge.graph.manager.JGraphTNodeManager;
 import org.collibra.challenge.graph.manager.NodeOperationManager;
+import org.collibra.challenge.graph.manager.ReentrantReadWriteLockNodeOperationManager;
 import org.collibra.challenge.graph.manager.SynchronizedNodeOperationManager;
 import org.collibra.challenge.protocol.ProtocolParser;
 import org.collibra.challenge.protocol.ProtocolPrinter;
@@ -80,8 +81,8 @@ public class CollibraChallengeServer {
                             pipeline.addLast( new SessionStartHandler( sessionId ) );
                             pipeline.addLast( new SessionClosedHandler( sessionId ) );
 
-                            pipeline.addLast( new WriteNodeOperationsHandler( nodeOperationManager ) );
                             pipeline.addLast( new ReadOperationsHandler( nodeOperationManager ) );
+                            pipeline.addLast( new WriteNodeOperationsHandler( nodeOperationManager ) );
 
                             pipeline.addLast( new SimpleChannelInboundHandler<Request>() {
                                 @Override
