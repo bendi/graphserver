@@ -35,8 +35,6 @@ public class RequestDecoder extends ByteToMessageDecoder {
 
     private static final Logger LOG = LogManager.getLogger();
 
-    private static final int COMMAND_MAX_LENGTH = 200; // safety first ;)
-
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception
     {
@@ -53,17 +51,12 @@ public class RequestDecoder extends ByteToMessageDecoder {
                 }
 
                 baos.write( b );
-
-                if ( commandLength++ > COMMAND_MAX_LENGTH ) {
-                    throw new UnsupportedCommandException( "Command too long" );
-                }
             }
 
             if ( commandBytes == null ) {
                 byteBuf.resetReaderIndex();
             }
             else {
-                byteBuf.discardReadBytes();
                 Request request = decodeRequest( commandBytes );
                 list.add( request );
             }
