@@ -1,8 +1,9 @@
-package org.collibra.challenge.graph.manager;
+package org.collibra.challenge.graph.manager.synchronisation;
 
 import java.util.List;
 
 import org.collibra.challenge.graph.exception.NodeOperationException;
+import org.collibra.challenge.graph.manager.NodeOperationManager;
 
 /**
  * The simplies synchronisation proxy - using <em>synchronised</em> keyword

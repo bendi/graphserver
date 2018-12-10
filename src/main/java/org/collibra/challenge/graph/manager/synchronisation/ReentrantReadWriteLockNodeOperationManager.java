@@ -1,10 +1,11 @@
-package org.collibra.challenge.graph.manager;
+package org.collibra.challenge.graph.manager.synchronisation;
 
 import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.collibra.challenge.graph.exception.NodeOperationException;
+import org.collibra.challenge.graph.manager.NodeOperationManager;
 
 /**
  * ReadWriteLock proxy around NodeOperationManager

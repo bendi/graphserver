@@ -24,7 +24,7 @@ import org.collibra.challenge.graph.handler.ReadOperationsHandler;
 import org.collibra.challenge.graph.handler.WriteNodeOperationsHandler;
 import org.collibra.challenge.graph.manager.JGraphTNodeManager;
 import org.collibra.challenge.graph.manager.NodeOperationManager;
-import org.collibra.challenge.graph.manager.OptimisticNodeOperationManager;
+import org.collibra.challenge.graph.manager.synchronisation.OptimisticNodeOperationManager;
 import org.collibra.challenge.protocol.ProtocolParser;
 import org.collibra.challenge.protocol.ProtocolPrinter;
 import org.collibra.challenge.protocol.commands.Request;
