@@ -34,12 +34,12 @@ public class ReadOperationsHandler extends MessageToMessageDecoder<ReadRequest> 
         try {
             if ( readRequest instanceof ShortestPathRequest ) {
                 Integer value = handleReadRequest( (ShortestPathRequest) readRequest );
-                channelHandlerContext.writeAndFlush( new ShortestPathResponse( value ) ).get();
+                channelHandlerContext.writeAndFlush( new ShortestPathResponse( value ) );
             }
             else if ( readRequest instanceof CloserThanRequest ) {
                 List<String> paths = handleReadRequestList( (CloserThanRequest) readRequest );
                 LOG.info( "closer than request: {}, list: {}", readRequest, paths );
-                channelHandlerContext.writeAndFlush( new CloserThanResponse( paths ) ).get();
+                channelHandlerContext.writeAndFlush( new CloserThanResponse( paths ) );
             }
         }
         catch ( Exception e ) {

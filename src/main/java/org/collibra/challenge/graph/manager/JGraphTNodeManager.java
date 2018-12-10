@@ -94,7 +94,7 @@ public class JGraphTNodeManager implements NodeOperationManager {
     @Override
     public List<String> findCloserThan(String nodeName, Integer weight)
     {
-        ClosestFirstIterator<String, DefaultWeightedEdge> cfi = new ClosestFirstIterator<>( completeGraph, nodeName, weight - 0.2 );
+        ClosestFirstIterator<String, DefaultWeightedEdge> cfi = new ClosestFirstIterator<>( completeGraph, nodeName, weight - 0.5 );
 
         List<String> result = new ArrayList<>();
 

@@ -43,17 +43,17 @@ public class WriteNodeOperationsHandler extends MessageToMessageDecoder<WriteReq
     {
         try {
             Response response = handleGraphOperationRequest( request );
-            channelHandlerContext.writeAndFlush( response ).get();
+            channelHandlerContext.writeAndFlush( response );
         }
         catch ( NodeMissingException e ) {
-            channelHandlerContext.writeAndFlush( new NodeOperationErrorResponse( ErrorType.NotFound ) ).get();
+            channelHandlerContext.writeAndFlush( new NodeOperationErrorResponse( ErrorType.NotFound ) );
         }
         catch ( NodeAlreadyExistsException e ) {
-            channelHandlerContext.writeAndFlush( new NodeOperationErrorResponse( ErrorType.AlreadyExists ) ).get();
+            channelHandlerContext.writeAndFlush( new NodeOperationErrorResponse( ErrorType.AlreadyExists ) );
         }
         catch ( Exception e ) {
             LOG.error( "Unknown error happened.", e );
-            channelHandlerContext.writeAndFlush( new CommandNotRecognizedResponse() ).get();
+            channelHandlerContext.writeAndFlush( new CommandNotRecognizedResponse() );
         }
     }
 
