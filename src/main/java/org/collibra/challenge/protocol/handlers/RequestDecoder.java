@@ -18,6 +18,8 @@ public class RequestDecoder extends ByteToMessageDecoder {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    private static final int ASCII_LINE_FEED = 10;
+
     private final ProtocolParser protocolParser;
 
     /**
@@ -37,7 +39,7 @@ public class RequestDecoder extends ByteToMessageDecoder {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             while ( byteBuf.isReadable() ) {
                 byte b = byteBuf.readByte();
-                if ( b == 10 ) {
+                if ( b == ASCII_LINE_FEED ) {
                     commandBytes = baos.toByteArray();
                     break;
                 }
